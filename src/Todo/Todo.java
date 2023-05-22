@@ -26,6 +26,19 @@ public class Todo {
     private Date deadline;
     private int SP;
 
+    public Todo deserialize(String raw) {
+        String[] deserializedRaw = raw.split(",");
+        return new Todo(deserializedRaw[0], deserializedRaw[1], PriorityEnum.values()[Integer.parseInt(deserializedRaw[2])],  new Date(deserializedRaw[3]), Integer.parseInt(deserializedRaw[4]));
+    }
+
+    @Override
+    public String toString() {
+        String strPrio =  priority.toString();
+        String strDate = deadline.toString();
+        String strSP = Integer.toString(SP);
+        return name+ desc + strPrio + strDate + strSP;
+    }
+
     public String getName() {
         return name;
     }
@@ -44,18 +57,5 @@ public class Todo {
 
     public int getSP() {
         return SP;
-    }
-
-    public Todo deserialize(String raw) {
-        String[] deserializedRaw = raw.split(",");
-        return new Todo(deserializedRaw[0], deserializedRaw[1], PriorityEnum.values()[Integer.parseInt(deserializedRaw[2])],  new Date(deserializedRaw[3]), Integer.parseInt(deserializedRaw[4]));
-    }
-
-    @Override
-    public String toString() {
-         String strPrio =  priority.toString();
-         String strDate = deadline.toString();
-         String strSP = Integer.toString(SP);
-         return name+ desc + strPrio + strDate + strSP;
     }
 }
