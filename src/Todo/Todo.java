@@ -1,5 +1,7 @@
 package Todo;
 
+
+import java.text.ParseException;
 import java.util.Date;
 
 public class Todo {
@@ -26,9 +28,9 @@ public class Todo {
     private Date deadline;
     private int SP;
 
-    public Todo deserialize(String raw) {
+    public Todo deserialize(String raw) throws ParseException {
         String[] deserializedRaw = raw.split(",");
-        return new Todo(deserializedRaw[0], deserializedRaw[1], PriorityEnum.values()[Integer.parseInt(deserializedRaw[2])],  new Date(deserializedRaw[3]), Integer.parseInt(deserializedRaw[4]));
+        return new Todo(deserializedRaw[0], deserializedRaw[1], PriorityEnum.values()[Integer.parseInt(deserializedRaw[2])],  java.text.DateFormat.getDateInstance().parse(deserializedRaw[3]), Integer.parseInt(deserializedRaw[4]));
     }
 
     @Override

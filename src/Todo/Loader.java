@@ -1,6 +1,7 @@
 package Todo;
 
 import java.io.*;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -17,7 +18,7 @@ public class Loader {
     private Scanner scanner;
     private PrintWriter pr;
 
-    public ArrayList<Todo> load() {
+    public ArrayList<Todo> load() throws ParseException {
         ArrayList<Todo> res = new ArrayList<Todo>();
         while (scanner.hasNext()) {
             res.add(new Todo().deserialize(scanner.nextLine()));
