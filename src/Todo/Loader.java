@@ -17,7 +17,7 @@ public class Loader {
     private Scanner scanner;
     private PrintWriter pr;
 
-    public List<Todo> load() {
+    public ArrayList<Todo> load() {
         ArrayList<Todo> res = new ArrayList<Todo>();
         while (scanner.hasNext()) {
             res.add(new Todo().deserialize(scanner.nextLine()));
