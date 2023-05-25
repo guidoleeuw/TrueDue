@@ -8,10 +8,18 @@ import java.util.Iterator;
 import java.util.List;
 
 public class LoaderService {
-    private Loader loader;
+    private final Loader loader;
 
-    public LoaderService() throws IOException, ParseException {
-        Loader loader = new Loader();
+    public LoaderService() throws IOException {
+        loader = new Loader();
+    }
+
+    public void save(Todo todo) {
+        loader.write(todo);
+    }
+
+    public void save(ArrayList<Todo> todos) {
+        todos.forEach(x -> loader.write(x));
     }
 
     public String getPrintableList() throws ParseException {
@@ -21,16 +29,16 @@ public class LoaderService {
 
     public String getOrderedPrintableList() throws ParseException {
         ArrayList<Todo> data = loader.load();
-        
-        ArrayList<Todo> out = new ArrayList<Todo>(returnSubsetBasedOmnPrio(data, Todo.PriorityEnum.highest));
-        out.addAll(returnSubsetBasedOmnPrio(data, Todo.PriorityEnum.high));
-        out.addAll(returnSubsetBasedOmnPrio(data, Todo.PriorityEnum.medium));
-        out.addAll(returnSubsetBasedOmnPrio(data, Todo.PriorityEnum.low));
+
+        ArrayList<Todo> out = new ArrayList<Todo>(returnSubsetBasedOmnPrio(data, PriorityEnum.highest));
+        out.addAll(returnSubsetBasedOmnPrio(data, PriorityEnum.high));
+        out.addAll(returnSubsetBasedOmnPrio(data, PriorityEnum.medium));
+        out.addAll(returnSubsetBasedOmnPrio(data, PriorityEnum.low));
 
         return convertListToPrintableList(out);
     }
 
-    private List<Todo> returnSubsetBasedOmnPrio(ArrayList<Todo> data, Todo.PriorityEnum e) {
+    private List<Todo> returnSubsetBasedOmnPrio(ArrayList<Todo> data, PriorityEnum e) {
         List<Todo> todo = new ArrayList<Todo>(data.stream().filter(x -> x.getPriority() == e).toList());
         Collections.sort(todo);
         Collections.reverse(todo);
@@ -41,7 +49,7 @@ public class LoaderService {
         StringBuilder res = new StringBuilder();
         Iterator<Todo> iterator = list.iterator();
         while (iterator.hasNext()) {
-            res.append(iterator.next().toString());
+            res.append(iterator.next().toReadebleString());
         }
         return res.toString();
     }

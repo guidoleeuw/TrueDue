@@ -9,15 +9,13 @@ public class Todo implements Comparable<Todo> {
     private String desc;
     private PriorityEnum priority;
     private Date deadline;
-    private int SP;
     private int weigt;
 
-    public Todo(String name, String desc, PriorityEnum priority, Date deadline, int SP) {
+    public Todo(String name, String desc, PriorityEnum priority, Date deadline) {
         this.name = name;
         this.desc = desc;
         this.priority = priority;
         this.deadline = deadline;
-        this.SP = SP;
     }
 
     public Todo() {
@@ -33,15 +31,19 @@ public class Todo implements Comparable<Todo> {
 
     public Todo deserialize(String raw) throws ParseException {
         String[] deserializedRaw = raw.split(",");
-        return new Todo(deserializedRaw[0], deserializedRaw[1], PriorityEnum.values()[Integer.parseInt(deserializedRaw[2])], java.text.DateFormat.getDateInstance().parse(deserializedRaw[3]), Integer.parseInt(deserializedRaw[4]));
+        return new Todo(deserializedRaw[0], deserializedRaw[1], PriorityEnum.values()[Integer.parseInt(deserializedRaw[2])], java.text.DateFormat.getDateInstance().parse(deserializedRaw[3]));
     }
 
-    @Override
-    public String toString() {
+    public String toReadebleString() {
         String strPrio = priority.toString();
         String strDate = deadline.toString();
-        String strSP = Integer.toString(SP);
-        return name + desc + strPrio + strDate + strSP;
+        return String.format("%s    %s    %s    %s", name, desc, strPrio, strDate);
+    }
+
+    public String toWritebleString() {
+        String strPrio = priority.toString();
+        String strDate = deadline.toString();
+        return String.format("%s;%s;%s;%s", name, desc, strPrio, strDate);
     }
 
     @Override
@@ -69,14 +71,4 @@ public class Todo implements Comparable<Todo> {
         return deadline;
     }
 
-    public int getSP() {
-        return SP;
-    }
-
-    enum PriorityEnum {
-        highest,
-        high,
-        medium,
-        low
-    }
 }
